@@ -1,22 +1,32 @@
-const gameboard = (() => {
+const gameBoard = (() => {
     const cases = document.querySelectorAll('.square');
     
     for (let i = 0; i < cases.length; i++)  {
         cases[i].addEventListener('click', function(){
-            cases[i].textContent = 'X';
+            if (cases[i].textContent == '') {
+                if (gameManager.xTurn)  {
+                    cases[i].textContent = 'X';
+                    gameManager.xTurn = false;
+                    gameManager.oTurn = true;
+                }
+                else if (gameManager.oTurn) {
+                    cases[i].textContent = 'O';
+                    gameManager.xTurn = true;
+                    gameManager.oTurn = false;
+                }
+            }
+            
         })
     }
 
-    const printCases = function(){for (let i = 0; i < cases.length; i++)  {
-        (i % 2 == 0) ? cases[i].textContent = "X" : cases[i].textContent = "O";
-    }} 
-
-    return {printCases};
+    return {};
 })();
 
-const gamemanager = (() => {
+const gameManager = (() => {
     let xTurn = true;
-    let yTurn = false;
+    let oTurn = false;
+
+    return {xTurn, oTurn};
 })();
 
 const Player = () => {

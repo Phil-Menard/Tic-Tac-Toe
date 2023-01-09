@@ -9,8 +9,8 @@ body    {
 
 .gameboard  {
     background-color: rgba(255, 255, 255, 0.829);
-    width: 70vh;
-    height: 70vw;
+    height: 70vh;
+    aspect-ratio: 1/1;
     border: 2px solid black;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
