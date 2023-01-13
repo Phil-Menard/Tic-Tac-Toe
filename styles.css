@@ -1,27 +1,44 @@
 body    {
-    background-color: rgba(0, 0, 0, 0.781);
+    background-color: rgba(0, 0, 0, 0.877);
     height: 99vh;
+    min-width: 600px;
     overflow-y: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10vw;
+    font-family: 'Poppins', sans-serif;
 }
 
-.gameboard  {
-    background-color: rgba(255, 255, 255, 0.829);
-    height: 70vh;
+#gameboard  {
+    height: 40vh;
     aspect-ratio: 1/1;
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.877);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    box-shadow: 0px 0px 6px 6px rgb(78, 201, 78);
 }
 
 .square {
-    background-color: antiquewhite;
-    border: 1px solid black;
-    font-size: 80px;
+    background-color: rgba(255, 255, 255, 0.829);
+    border: 1px solid rgba(0, 0, 0, 0.877);
+    font-size: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+p   {
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+}
+
+#playerOne  {
+    color: rgb(78, 201, 78);
+}
+
+#playerTwo  {
+    color: rgb(71, 163, 190);
 }
