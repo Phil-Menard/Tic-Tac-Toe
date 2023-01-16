@@ -1,5 +1,10 @@
 const gameboard = document.getElementById('gameboard');
-console.log(gameboard);
+const results = document.getElementById('result');
+const firstPlayer = document.getElementById('playerOne');
+const secondPlayer = document.getElementById('playerTwo');
+const oneCounts = document.getElementById('onecounts');
+const twoCounts = document.getElementById('twocounts');
+console.log(result);
 
 const gameBoard = (() => {
     const cells = document.querySelectorAll('.square');
@@ -7,18 +12,26 @@ const gameBoard = (() => {
     //ADD EVENT LISTENER TO THE CELLS
     for (let i = 0; i < cells.length; i++)  {   
         cells[i].addEventListener('click', function(){
-            
-            //CHECK IF CELL IS EMPTY, MARK THE CELL OF THE SIGN OF THE PLAYER AND CHANGE TURN
+            if(gameManager.isPlaying)   {
+
+                //CHECK IF CELL IS EMPTY, MARK THE CELL OF THE SIGN OF THE PLAYER AND CHANGE TURN
             if (cells[i].textContent == '') {   
                 if (gameManager.xTurn)  {
-                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(71, 163, 190)";
+                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(71, 163, 190)"; //blue
+                    secondPlayer.style.textShadow = "0px 0px 30px rgb(71, 163, 190)";
+                    firstPlayer.style.textShadow = "none";
                     playerOne.selectCell(cells, i);
                 }
                 else {
-                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(78, 201, 78)";
+                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(78, 201, 78)"; //green
+                    firstPlayer.style.textShadow = "0px 0px 30px rgb(78, 201, 78)";
+                    secondPlayer.style.textShadow = "none";
                     playerTwo.selectCell(cells, i);
                 }
             }  
+            }
+            
+            
         })
     }
 })();
@@ -40,6 +53,8 @@ const gameManager = (() => {
 })();
 
 const Player = () => {
+    let playerOnePoints = 0;
+    let playerTwoPoints = 0;
     const selectCell = function(cells, index)  {
         if (gameManager.xTurn)  {
             cells[index].textContent = 'X';
@@ -87,7 +102,25 @@ const Player = () => {
     
             if (win)    {
                 console.log('player wins!');
-                isPlaying = false;
+                gameManager.isPlaying = false;
+                if (gameManager.xTurn)  {
+                    results.textContent = "Player 2 wins!"
+                    results.style.color = "rgb(71, 163, 190)";
+                    secondPlayer.style.textShadow = "0px 0px 30px rgb(71, 163, 190)";
+                    firstPlayer.style.textShadow = "none";
+                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(71, 163, 190)";
+                    playerTwoPoints++;
+                    twoCounts.textContent = playerTwoPoints;
+                }
+                else    {
+                    results.textContent = "Player 1 wins!"
+                    results.style.color = "rgb(78, 201, 78)";
+                    firstPlayer.style.textShadow = "0px 0px 30px rgb(78, 201, 78)";
+                    secondPlayer.style.textShadow = "none";
+                    gameboard.style.boxShadow = "0px 0px 6px 6px rgb(78, 201, 78)";
+                    playerOnePoints++;
+                    oneCounts.textContent = playerOnePoints;
+                }
                 break;
             }
         }
