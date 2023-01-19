@@ -29,17 +29,18 @@ const gameManager = (() => {
   let oPoints = 0;
   let isOver = false;
   let turnIsEven = true;
+  let hasBeenReset = false;
 
   const resetGame = () => {
+    hasBeenReset = true;
     round = 0;
     isOver = false;
     result.textContent = "";
-    turnIsEven = false;
+    turnIsEven = true;
     for (let i = 0; i < cells.length; i++)  {
       cells[i].textContent = "";
     }
     setColors();
-    turnIsEven = true;
   };
 
   const getPlayerIndex = () => {
@@ -60,18 +61,27 @@ const gameManager = (() => {
     }
   }
 
-  const setColors = () => {
-    if (!turnIsEven) {
+  const setColors = (e) => {
+    if(hasBeenReset)  {
       playerTwo.style.textShadow = "none";
       playerOne.style.textShadow = "0px 0px 30px rgb(78, 201, 78)";
       gameboard.style.boxShadow = "0px 0px 6px 6px rgb(78, 201, 78)";
     }
     else  {
-      playerOne.style.textShadow = "none";
-      playerTwo.style.textShadow = "0px 0px 30px rgb(71, 163, 190)";
-      gameboard.style.boxShadow = "0px 0px 6px 6px rgb(71, 163, 190)";
-    }
-  };
+      if (!turnIsEven) {
+        playerTwo.style.textShadow = "none";
+        playerOne.style.textShadow = "0px 0px 30px rgb(78, 201, 78)";
+        gameboard.style.boxShadow = "0px 0px 6px 6px rgb(78, 201, 78)"; //green
+        e.target.style.color = "rgb(37, 105, 125)";
+      }
+      else  {
+        playerOne.style.textShadow = "none";
+        playerTwo.style.textShadow = "0px 0px 30px rgb(71, 163, 190)";
+        gameboard.style.boxShadow = "0px 0px 6px 6px rgb(71, 163, 190)"; //blue
+        e.target.style.color = "rgb(44, 127, 44)";
+      }
+    };
+  }
 
   const getWinner = () => {
     if (getPlayerIndex() == 1)  { // if the first player wins
@@ -136,9 +146,16 @@ const gameManager = (() => {
   resetButton.addEventListener('click', resetGame);
 
   const playRound = (e, indexCell, board) => {
-    let player = players[getPlayerIndex()];
+    let player;
+    if (hasBeenReset) {
+      player = players[0];
+    }
+    else  {
+      player = players[getPlayerIndex()];
+    }
+    hasBeenReset = false;
     if (!isOver && e.target.textContent == "")  {
-      setColors();
+      setColors(e);
       player.setSign(player, e.target);
       setTurn();
       checkWin(indexCell, e.target, board);
@@ -146,7 +163,6 @@ const gameManager = (() => {
       checkDraw();
     }
   }
-
   return {playRound};
 })();
 
